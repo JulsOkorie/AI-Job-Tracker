@@ -13,3 +13,8 @@ class JobTracker:
 
     def list_applications(self):
         return self.applications
+
+
+def track_applications():
+        print("Tracking job applications...(feature coming soon!)")
+      #  return self.track_applications()
