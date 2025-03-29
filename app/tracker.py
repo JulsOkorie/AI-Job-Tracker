@@ -9,14 +9,26 @@ class JobTracker:
 
     def add_application(self, company, role, date_applied):
         self.applications.append({
-            "company": company,
-            "role": role,
+            "company": company.lower(),
+            "role": role.lower(),
             "date_applied": date_applied
         })
         self.save_applications()
 
     def list_applications(self):
         return self.applications
+
+    def search_by_company(self, company_name):
+        return [app for app in self.applications if
+                   company_name.lower() in app["company"].lower()]
+
+    def search_by_role(self, job_role):
+        return [app for app in self.applications if
+                   job_role.lower() in app["role"].lower()]
+
+    def search_by_date(self, date_applied):
+        return [app for app in self.applications if app["date_applied"] == date_applied]
+
 
     def save_applications(self):
         with open(self.filename, "w") as file:
@@ -27,6 +39,15 @@ class JobTracker:
             with open(self.filename, "r") as file:
                 return json.load(file)
         return []
+
+    def search_application(self, role):
+        matches = [app for app in self.applications if role.lower() in app['role'].lower()]
+        if matches:
+            for app in matches:
+                print(f"Company: {app['company']}, Role: {app['role']}, Date Applied: {app['date_applied']}")
+
+        else:
+            print("⚠️ No matching applications found.")
 
 
 def track_applications():

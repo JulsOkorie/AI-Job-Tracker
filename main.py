@@ -26,7 +26,8 @@ def main():
         print("\n-- AI JOB TRACKER ---")
         print("1. Add a job application")
         print("2. View all applications")
-        print("3. Exit")
+        print("3. Search for applications")
+        print("4. Exit")
 
         choice = input("Enter your choice: ")
 
@@ -63,7 +64,39 @@ def main():
                         print("❌ Invalid choice! Please enter 1 or 2.")
 
         elif choice == "3":
-            print("Exiting AI Job Tracker. Goodbye!")
+            print("\n🔍 Search Job Applications")
+            print("1. Search by company")
+            print("2. Search by role")
+            print("3. Search by date applied")
+            print("4. Back to main menu")
+            search_choice = input("Enter your search option: ")
+
+            if search_choice == "1":
+                company_name = input("Enter company name to search: ").strip()
+                results = tracker.search_by_company(company_name)
+
+            elif search_choice == "2":
+                job_role = input("Enter job role to search: ").strip()
+                results = tracker.search_by_role(job_role)
+
+            elif search_choice == "3":
+                date_applied = get_valid_date()
+                results = tracker.search_by_date(date_applied)
+
+            else:
+                continue
+
+            if results:
+                print("\n🔎 Search Results:")
+                for i, app in enumerate(results, start=1):
+                    print(f"{i}. {app['company'].title()} - {app['role'].title()} (Applied on: {app['date_applied']})")
+
+            else:
+                print("⚠️ No matching applications found.")
+
+
+        elif choice == "4":
+            print("Exiting AI Job Tracker. Goodbye! 👋")
             print("\n")
             break
 
