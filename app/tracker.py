@@ -1,4 +1,5 @@
 import json
+import shutil
 import os
 from datetime import datetime
 
@@ -6,6 +7,7 @@ from datetime import datetime
 class JobTracker:
     def __init__(self):
         self.filename = "data/applications.json"
+        self.backup_filename = "data/applications_backup.json"
         self.applications = self.load_applications()
 
 
@@ -54,9 +56,15 @@ class JobTracker:
             print("⚠️ No matching applications found.")
 
     def save_applications(self):
-        os.makedirs(os.path.dirname(self.filename), exist_ok=True)
         with open(self.filename, "w") as file:
             json.dump(self.applications, file, indent=4)
+            file.flush()
+            os.fsync(file.fileno())
+
+        self.backup_applications()
+
+    def backup_applications(self):
+        shutil.copy(self.filename, self.backup_filename)
 
     def load_applications(self):
         if os.path.exists(self.filename):
