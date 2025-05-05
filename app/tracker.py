@@ -12,7 +12,7 @@ class JobTracker:
             if (app["company"] == company.lower() and app["role"] == role.lower() and
                     app["date_applied"] == date_applied):
                 print("⚠️ Duplicate application detected! This entry already exists.")
-                return
+                return False
 
         self.applications.append({
             "company": company.lower(),
@@ -20,6 +20,7 @@ class JobTracker:
             "date_applied": date_applied
         })
         self.save_applications()
+        return True
 
     def list_applications(self):
         if not self.applications:
@@ -59,7 +60,9 @@ class JobTracker:
                 return json.load(file)
         return []
 
-    
+    def sort_by_date(self, ascending=True):
+        return sorted(self.applications, key=lambda app: app["date_applied"], reverse=not ascending)
+
 
 def track_applications():
     print("Tracking job applications...(feature coming soon!)")
