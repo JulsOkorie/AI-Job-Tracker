@@ -1,11 +1,13 @@
 import json
 import os
+from datetime import datetime
 
 
 class JobTracker:
     def __init__(self):
-        self.filename = "applications.json"
+        self.filename = "data/applications.json"
         self.applications = self.load_applications()
+
 
     def add_application(self, company, role, date_applied):
         for app in self.applications:
@@ -15,9 +17,10 @@ class JobTracker:
                 return False
 
         self.applications.append({
-            "company": company.lower(),
-            "role": role.lower(),
-            "date_applied": date_applied
+            "company": company.strip(),
+            "role": role.strip(),
+            "date_applied": date_applied,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })
         self.save_applications()
         return True
@@ -51,6 +54,7 @@ class JobTracker:
             print("⚠️ No matching applications found.")
 
     def save_applications(self):
+        os.makedirs(os.path.dirname(self.filename), exist_ok=True)
         with open(self.filename, "w") as file:
             json.dump(self.applications, file, indent=4)
 

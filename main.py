@@ -1,7 +1,6 @@
 from app.tracker import JobTracker
 import datetime
 
-
 def  get_valid_date():
 
     today = datetime.date.today()
@@ -51,8 +50,8 @@ def main():
             if applications:
                 print("\nYour Tracked Applications:")
                 for i, app in enumerate(applications, start=1):
-                    print(f"{i}. {app['company']} - {app['role']} (Applied on: {app['date_applied']})")
-                    print("\n")
+                    print(f"{i}. {app['company'].title()} - {app['role'].title()} (Applied on: {app['date_applied']})")
+
             else:
                 print("⚠️ No applications tracked yet.")
                 while True:
@@ -110,7 +109,6 @@ def main():
 
         elif choice == "5":
             print("Exiting AI Job Tracker. Goodbye! 👋")
-            print("\n")
             break
 
         else:
