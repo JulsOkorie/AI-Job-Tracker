@@ -1,6 +1,7 @@
 import json
 import shutil
 import os
+import csv
 from datetime import datetime
 
 
@@ -9,6 +10,25 @@ class JobTracker:
         self.filename = "data/applications.json"
         self.backup_filename = "data/applications_backup.json"
         self.applications = self.load_applications()
+
+
+    def export_to_csv(self, filename="exported_applications.csv"):
+        if not self.applications:
+            print("⚠️ No applications to export.")
+            return
+
+        with open(filename, mode='w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=["company", "role", "date_applied"])
+            writer.writeheader()
+            for app in self.applications:
+                # 👇🏽 Only write relevant fields (exclude 'timestamp')
+                writer.writerow({
+                    "company": app["company"],
+                    "role": app["role"],
+                    "date_applied": app["date_applied"]
+                })
+
+        print(f"✅ Applications exported successfully to '{filename}'")
 
 
     def add_application(self, company, role, date_applied):

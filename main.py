@@ -28,6 +28,7 @@ def main():
         print("3. Search for applications")
         print("4. Sort applications by date")
         print("5. Exit")
+        print("6. Export applications to CSV")
 
         choice = input("Enter your choice: ")
 
@@ -110,6 +111,9 @@ def main():
         elif choice == "5":
             print("Exiting AI Job Tracker. Goodbye! 👋")
             break
+
+        elif choice == "6":
+            tracker.export_to_csv()
 
         else:
             print("❌ Invalid choice. Please try again.")
